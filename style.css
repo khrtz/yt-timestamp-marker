@@ -1,0 +1,44 @@
+body {
+    font-family: 'Arial', sans-serif;
+    margin: 0;
+    padding: 10px;
+    width: 300px;
+    color: rgb(33, 33, 33)171;
+}
+.video-item {
+    margin-bottom: 25px;
+}
+
+.title-section {
+    margin-bottom: 15px;
+}
+
+.video-title {
+    display: block;
+    font-size: 15px;
+    color: #0044cc;
+    text-decoration: none;
+    margin-bottom: 8px;
+}
+
+.timestamp-link {
+    display: inline-block;
+    margin: 3px 6px 3px 0;
+    padding: 4px 8px;
+    font-size: 14px;
+    background-color: #0056b3;
+    color: white;
+    text-decoration: none;
+    border-radius: 5px; /* ボーダーを丸く */
+    transition: background-color 0.3s, color 0.3s;
+}
+
+.timestamp-link:hover, .timestamp-link:focus {
+    background-color: #007bff; /* ホバー時の背景色を明るく */
+    color: white; /* ホバー時のテキスト色 */
+    text-decoration: underline;
+}
+
+.timestamp-link:focus {
+    outline: 2px solid #0056b3; /* フォーカス時のアウトライン */
+}
