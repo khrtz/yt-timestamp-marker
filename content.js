@@ -2,22 +2,30 @@ document.addEventListener('keydown', (event) => {
     if (event.altKey && event.key === 'o') {
         let video = document.querySelector('video');
         if (video) {
-            let message = {
-                action: 'save_timestamp',
-                url: window.location.href,
-                title: document.title,
-                time: video.currentTime
-            };
-            chrome.runtime.sendMessage(message, function(response) {
-                if (chrome.runtime.lastError) {
-                    console.error("Error sending message:", chrome.runtime.lastError);
-                    return;
-                }
-                console.log("Received response:", response);
-            });
+            let videoUrl = window.location.href;
+            let videoIdMatch = videoUrl.match(/[?&]v=([^&]+)/); // 動画IDを抽出
+
+            if (videoIdMatch) {
+                let videoId = videoIdMatch[1];
+                let formattedUrl = `https://www.youtube.com/watch?v=${videoId}`; // URLをフォーマット
+                let message = {
+                    action: 'save_timestamp',
+                    url: formattedUrl, // フォーマットしたURLを使用
+                    title: document.title,
+                    time: video.currentTime
+                };
+                chrome.runtime.sendMessage(message, function(response) {
+                    if (chrome.runtime.lastError) {
+                        console.error("Error sending message:", chrome.runtime.lastError);
+                        return;
+                    }
+                    console.log("Received response:", response);
+                });
+            }
         }
     }
 });
+
 
 
 chrome.runtime.onMessage.addListener(function(request, sender, sendResponse) {

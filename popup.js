@@ -40,13 +40,14 @@ function renderTimestamps(videoData, currentTabUrl) {
         titleLink.className = 'video-title';
         titleLink.textContent = data.title;
 
-        // 現在のタブのURLと一致する場合、タイトルを赤くする
-        if (url === currentTabUrl) {
-            titleLink.style.color = 'red';
+        if (url === currentTabUrl || currentTabUrl.startsWith(url.split('&')[0])) {
+            titleLink.style.fontWeight = "bold";
+            titleLink.style.color = '#0f0f0f';
         } else {
             titleLink.href = url;
             titleLink.target = '_blank';
         }
+        
 
         titleSection.appendChild(titleLink);
         videoDiv.appendChild(titleSection);
