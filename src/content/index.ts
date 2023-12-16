@@ -1,20 +1,21 @@
-document.addEventListener('keydown', (event) => {
+document.addEventListener('keydown', (event: KeyboardEvent) => {
     if (event.altKey && event.key === 'o') {
+        console.log("Saving timestamp...", "o");
         let video = document.querySelector('video');
         if (video) {
             let videoUrl = window.location.href;
-            let videoIdMatch = videoUrl.match(/[?&]v=([^&]+)/); // 動画IDを抽出
+            let videoIdMatch = videoUrl.match(/[?&]v=([^&]+)/);
 
             if (videoIdMatch) {
                 let videoId = videoIdMatch[1];
-                let formattedUrl = `https://www.youtube.com/watch?v=${videoId}`; // URLをフォーマット
+                let formattedUrl = `https://www.youtube.com/watch?v=${videoId}`;
                 let message = {
                     action: 'save_timestamp',
-                    url: formattedUrl, // フォーマットしたURLを使用
+                    url: formattedUrl,
                     title: document.title,
                     time: video.currentTime
                 };
-                chrome.runtime.sendMessage(message, function(response) {
+                chrome.runtime.sendMessage(message, (response: any) => {
                     if (chrome.runtime.lastError) {
                         console.error("Error sending message:", chrome.runtime.lastError);
                         return;
@@ -26,9 +27,7 @@ document.addEventListener('keydown', (event) => {
     }
 });
 
-
-
-chrome.runtime.onMessage.addListener(function(request, sender, sendResponse) {
+chrome.runtime.onMessage.addListener((request: any, sender: chrome.runtime.MessageSender, sendResponse: (response: any) => void) => {
     if (request.action === "moveToTimestamp") {
         let video = document.querySelector('video');
         if (video) {
@@ -38,8 +37,3 @@ chrome.runtime.onMessage.addListener(function(request, sender, sendResponse) {
         }
     }
 });
-
-function parseTime(timeString) {
-    let timeParts = timeString.split('s')[0].split('m');
-    return parseInt(timeParts[0]) * 60 + parseInt(timeParts[1]);
-}
