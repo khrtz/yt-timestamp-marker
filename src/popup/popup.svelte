@@ -32,14 +32,20 @@
         });
     });
 
+
+
     function handleClick(e: MouseEvent) {
-        e.preventDefault()
+        e.preventDefault();
         const target = e.target as HTMLAnchorElement;
         console.log("Clicked:", target.className);
         let videoUrl = target.href;
         console.log("Generated URL:", videoUrl);
-        chrome.runtime.sendMessage({action: "moveToTimestamp", url: videoUrl});
-}
+        chrome.runtime.sendMessage({action: "moveToTimestamp", url: videoUrl}, (response) => {
+            console.log("Message sent to background script", response);
+        });
+    }
+
+// ... existing code ...
 </script>
 
 <template>
