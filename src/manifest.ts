@@ -23,5 +23,5 @@ export default defineManifest({
       js: ['src/content/index.ts'],
     },
   ],
-  permissions: ['storage', 'activeTab'],
+  permissions: ['storage', 'activeTab', 'scripting'],
 })
