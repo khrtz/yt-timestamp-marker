@@ -482,7 +482,7 @@
     }
 </script>
 
-<div class="container">
+    <div class="container">
     <header>
         <div class="logo-section">
             <div class="logo">
@@ -497,14 +497,14 @@
             <kbd>Alt</kbd>+<kbd>O</kbd> でタイムスタンプ保存
         </div>
     </header>
-    
-    {#if loading}
-        <div class="loading">
-            <div class="spinner"></div>
-            <p>読み込み中...</p>
-        </div>
-    {:else if noData}
-        <div class="no-data">
+        
+        {#if loading}
+            <div class="loading">
+                <div class="spinner"></div>
+                <p>読み込み中...</p>
+            </div>
+        {:else if noData}
+            <div class="no-data">
             <div class="icon">
                 <svg xmlns="http://www.w3.org/2000/svg" width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
                     <circle cx="12" cy="12" r="10"></circle>
@@ -514,8 +514,8 @@
             </div>
             <p>保存されたタイムスタンプがありません</p>
             <p class="hint">動画視聴中に <kbd>Alt</kbd>+<kbd>O</kbd> を押して<br>お気に入りの瞬間を保存</p>
-        </div>
-    {:else}
+            </div>
+        {:else}
         <main>
             <div class="sidebar">
                 {#each getSortedEntries() as [url, data], i}
@@ -559,20 +559,20 @@
             <div class="content">
                 {#each getSortedEntries() as [url, data]}
                     {#if url === activeVideoUrl}
-                        <div class="video-item" class:current={isCurrentVideo(url)}>
-                            <div class="title-section">
+                <div class="video-item" class:current={isCurrentVideo(url)}>
+                    <div class="title-section">
                                 {#if isCurrentVideo(url)}
                                     <div class="badge-container">
                                         <span class="current-badge">現在視聴中</span>
                                     </div>
                                 {/if}
-                                <a class="video-title" class:active={isCurrentVideo(url)}
-                                   href={isCurrentVideo(url) ? null : url}
-                                   target={isCurrentVideo(url) ? null : '_blank'}
-                                   aria-current={isCurrentVideo(url) ? 'page' : undefined}>
-                                    {data.title}
-                                </a>
-                            </div>
+                        <a class="video-title" class:active={isCurrentVideo(url)}
+                           href={isCurrentVideo(url) ? null : url}
+                           target={isCurrentVideo(url) ? null : '_blank'}
+                           aria-current={isCurrentVideo(url) ? 'page' : undefined}>
+                            {data.title}
+                        </a>
+                    </div>
                             
                             {#if isCurrentVideo(url)}
                                 <div class="player-controls">
@@ -612,7 +612,7 @@
                                 </div>
                             {/if}
                             
-                            <div class="timestamp-section">
+                    <div class="timestamp-section">
                                 <div class="timestamp-header">
                                     <div class="header-left">
                                         <h2>タイムスタンプ</h2>
@@ -620,24 +620,24 @@
                                     </div>
                                 </div>
                                 
-                                <div class="timestamp-grid">
-                                    {#each data.timestamps.sort((a, b) => a - b) as time}
-                                        <a href={`${url}&t=${Math.floor(time)}s`} 
-                                           class="timestamp-link" 
-                                           on:click={handleClick}
-                                           title={`${formatTime(time)}に移動`}
-                                           aria-label={`${formatTime(time)}に移動`}>
+                        <div class="timestamp-grid">
+                            {#each data.timestamps.sort((a, b) => a - b) as time}
+                                <a href={`${url}&t=${Math.floor(time)}s`} 
+                                   class="timestamp-link" 
+                                   on:click={handleClick}
+                                   title={`${formatTime(time)}に移動`}
+                                   aria-label={`${formatTime(time)}に移動`}>
                                             <div class="timestamp-icon">
                                                 <svg xmlns="http://www.w3.org/2000/svg" width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
                                                     <polygon points="5 3 19 12 5 21 5 3"></polygon>
                                                 </svg>
                                             </div>
                                             <span>{formatTime(time)}</span>
-                                        </a>
-                                    {/each}
-                                </div>
-                            </div>
+                                </a>
+                            {/each}
                         </div>
+                    </div>
+                </div>
                     {/if}
                 {/each}
             </div>
@@ -654,9 +654,9 @@
                     <button class="dialog-btn delete-btn" on:click={confirmDelete}>削除</button>
                 </div>
             </div>
-        </div>
-    {/if}
-</div>
+            </div>
+        {/if}
+    </div>
 
 <style>
 	:global(body) {
@@ -861,7 +861,7 @@
     
     .badge-container {
         margin-bottom: 8px;
-    }
+	}
 
 	.video-title {
 		display: block;
@@ -869,13 +869,13 @@
 		color: #fff;
 		text-decoration: none;
 		font-weight: normal;
-		line-height: 1.4;
+        line-height: 1.4;
         transition: color 0.2s;
 	}
     
     .video-title:hover {
         color: #3ea6ff;
-    }
+	}
     
     .video-title.active {
         font-weight: 500;
@@ -1022,7 +1022,7 @@
         margin-right: 7px;
         color: inherit;
         opacity: 0.9;
-    }
+	}
 
 	.timestamp-link:focus {
         outline: none;
@@ -1158,5 +1158,5 @@
     .dialog .delete-btn:hover {
         background-color: #f44336;
         transform: translateY(-2px);
-    }
+	}
 </style>

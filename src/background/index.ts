@@ -1,12 +1,12 @@
 // インターフェース定義
 interface VideoMetadata {
-  title: string;
-  timestamps: number[];
+        title: string;
+        timestamps: number[];
   thumbnail?: string;
 }
 
 interface ExtRequest {
-  action: string;
+    action: string;
   url?: string;
   time?: number;
   title?: string;
@@ -34,24 +34,24 @@ chrome.runtime.onInstalled.addListener(() => {
   
   injectContentScripts();
 });
-
+  
 chrome.runtime.onStartup.addListener(() => {
   console.log("Extension starting up, loading data");
   
   chrome.storage.local.get('videoData', (result: { videoData?: VideoDataMap }) => {
-    if (!result.videoData) {
-      chrome.storage.local.set({ videoData: {} });
+        if (!result.videoData) {
+            chrome.storage.local.set({ videoData: {} });
       console.log("Initialized empty videoData storage on startup");
-    } else {
-      videoData = result.videoData;
+        } else {
+            videoData = result.videoData;
       console.log("Loaded videoData on startup:", Object.keys(result.videoData).length, "videos");
-    }
-  });
+        }
+    });
 });
-
+  
 // タイムスタンプ保存処理
 chrome.runtime.onMessage.addListener((message: any, sender: any, sendResponse: any) => {
-  if (message.action === 'save_timestamp') {
+if (message.action === 'save_timestamp') {
     if (!message.url || message.title === undefined || message.time === undefined) {
       console.error("Invalid save_timestamp request:", message);
       sendResponse({ status: 'error', message: 'Missing required parameters' });
@@ -61,8 +61,8 @@ chrome.runtime.onMessage.addListener((message: any, sender: any, sendResponse: a
     console.log("Saving timestamp:", message);
     
     chrome.storage.local.get('videoData', (result: { videoData?: VideoDataMap }) => {
-      videoData = result.videoData || {};
-      
+    videoData = result.videoData || {};
+
       // 動画IDの取得と正規化されたURLの作成
       const videoId = getVideoIdFromUrl(message.url);
       if (!videoId) {
@@ -78,10 +78,10 @@ chrome.runtime.onMessage.addListener((message: any, sender: any, sendResponse: a
       if (!videoData[cleanUrl]) {
         console.log("Creating new video entry:", cleanUrl);
         videoData[cleanUrl] = {
-          title: message.title,
-          timestamps: []
+        title: message.title,
+        timestamps: []
         };
-      }
+    }
 
       // タイムスタンプを追加（重複がない場合）
       const time = message.time;
@@ -99,7 +99,7 @@ chrome.runtime.onMessage.addListener((message: any, sender: any, sendResponse: a
             videoData: videoData
           });
           console.log("Timestamp saved successfully");
-          sendResponse({ status: 'success' });
+    sendResponse({ status: 'success' });
         });
       } else {
         console.log("Timestamp already exists (within 1 second):", videoData[cleanUrl].timestamps[existingIndex]);
@@ -108,7 +108,7 @@ chrome.runtime.onMessage.addListener((message: any, sender: any, sendResponse: a
     });
     
     return true;
-  }
+}
   
   if (message.action === "moveToTimestamp") {
     console.log("Moving to timestamp in:", message.url);
@@ -121,17 +121,17 @@ chrome.runtime.onMessage.addListener((message: any, sender: any, sendResponse: a
       return true;
     }
     
-    chrome.tabs.query({ url: "*://*.youtube.com/watch*" }, (tabs: chrome.tabs.Tab[]) => {
+      chrome.tabs.query({ url: "*://*.youtube.com/watch*" }, (tabs: chrome.tabs.Tab[]) => {
       let tabFound = false;
       
-      for (let tab of tabs) {
+        for (let tab of tabs) {
         // YouTube動画IDで比較する
         const tabVideoId = getVideoIdFromUrl(tab.url || '');
         
         if (tabVideoId && tabVideoId === requestVideoId) {
           console.log("Found matching tab:", tab.id, "Video ID:", tabVideoId);
           const timeMatch = message.url.match(/[&?]t=(\d+)s/);
-          const time = timeMatch ? timeMatch[1] : null;
+            const time = timeMatch ? timeMatch[1] : null;
           
           if (time && tab.id) {
             console.log("Sending moveToTimestamp message with time:", time);
@@ -152,10 +152,10 @@ chrome.runtime.onMessage.addListener((message: any, sender: any, sendResponse: a
             chrome.tabs.update(tab.id, { active: true });
             chrome.windows.update(tab.windowId, { focused: true });
             return true;
+            }
+            break;
           }
-          break;
         }
-      }
       
       // 一致するタブが見つからない場合は新しいタブを開く
       if (!tabFound) {
@@ -164,10 +164,10 @@ chrome.runtime.onMessage.addListener((message: any, sender: any, sendResponse: a
           sendResponse({ success: true, newTab: true });
         });
       }
-    });
-    return true;
-  }
-  
+      });
+      return true;
+    }
+
   return false;
 });
 
@@ -209,7 +209,7 @@ function injectContentScripts() {
         });
       }
     }
-  });
+          });
 }
 
 // タブ更新時にコンテンツスクリプトを挿入
@@ -221,5 +221,5 @@ chrome.tabs.onUpdated.addListener((tabId, changeInfo, tab) => {
     }).catch(error => {
       console.error("Error injecting content script on tab update", tabId, error);
     });
-  }
-}); 
+    }
+  });
